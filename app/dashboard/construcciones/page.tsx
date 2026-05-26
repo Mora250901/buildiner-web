@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import api from '@/lib/axios';
 import Link from 'next/link';
@@ -26,6 +27,7 @@ const estadoColors: Record<string, string> = {
 };
 
 export default function ConstruccionesPage() {
+    const router = useRouter();
     const [construcciones, setConstrucciones] = useState<Construccion[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -74,7 +76,11 @@ export default function ConstruccionesPage() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {construcciones.map((c) => (
-                                    <tr key={c.id} className="hover:bg-gray-50 transition-colors">
+                                    <tr
+                                        key={c.id}
+                                        onClick={() => router.push(`/dashboard/construcciones/${c.id}`)}
+                                        className="hover:bg-gray-50 transition-colors cursor-pointer"
+                                    >
                                         <td className="px-6 py-4 text-gray-400">#{c.id}</td>
                                         <td className="px-6 py-4 font-semibold text-gray-900">{c.direccion}</td>
                                         <td className="px-6 py-4 text-gray-500">{c.distrito?.nombre}</td>
